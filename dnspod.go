@@ -51,7 +51,7 @@ func NewClient(httpClient *http.Client, token string) *Client {
 
 // NewRequest creates an API request
 func (c *Client) NewRequest(method, path string, opt interface{}) (*http.Request, error) {
-	u := c.baseURL
+	u := *c.baseURL
 	unescaped, err := url.PathUnescape(path)
 	if err != nil {
 		return nil, err
@@ -60,7 +60,7 @@ func (c *Client) NewRequest(method, path string, opt interface{}) (*http.Request
 	u.Path = u.Path + unescaped
 	req := &http.Request{
 		Method:     method,
-		URL:        u,
+		URL:        &u,
 		Proto:      "HTTP/1.1",
 		ProtoMajor: 1,
 		ProtoMinor: 1,
