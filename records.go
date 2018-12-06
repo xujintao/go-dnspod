@@ -47,9 +47,10 @@ type ListRecordsOptions struct {
 	KeyWord string `url:"keyword,omitempty"`
 }
 
-// ListRecordsResp represents response body of ListRecord
+// ActionRecordResp represents response body of
+// ListRecords, CreateRecord, ModifyRecord, DeleteRecord
 // API docs: https://www.dnspod.cn/docs/records.html#record-create
-type ListRecordsResp struct {
+type ActionRecordResp struct {
 	Status *Status `json:"status,omitempty"`
 	Domain *Domain `json:"domain,omitempty"`
 	Info   struct {
@@ -58,23 +59,24 @@ type ListRecordsResp struct {
 		RecordsNum  string `json:"records_num,omitempty"`
 	} `json:"info,omitempty"`
 	Records []*Record `json:"records,omitempty"`
+	Record  *Record   `json:"record,omitempty"`
 }
 
 // ListRecords get a list of records
 // API docs: https://www.dnspod.cn/docs/records.html#record-list
-func (r *RecordsService) ListRecords(opt *ListRecordsOptions) (*ListRecordsResp, *http.Response, error) {
+func (r *RecordsService) ListRecords(opt *ListRecordsOptions) (*ActionRecordResp, *http.Response, error) {
 	req, err := r.client.NewRequest("POST", "Record.List", opt)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	var record ListRecordsResp
-	resp, err := r.client.Do(req, &record)
+	var arr ActionRecordResp
+	resp, err := r.client.Do(req, &arr)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	return &record, resp, nil
+	return &arr, resp, nil
 }
 
 // CreateRecordOptions represents the available CreateRecord() options.
@@ -87,28 +89,21 @@ type CreateRecordOptions struct {
 	Value      string `url:"value,omitempty"`
 }
 
-// CreateRecordResp represents response body of CreateRecord
-// API docs: https://www.dnspod.cn/docs/records.html#record-create
-type CreateRecordResp struct {
-	Status *Status `json:"status,omitempty"`
-	Record *Record `json:"record,omitempty"`
-}
-
 // CreateRecord create a record.
 // API docs: https://www.dnspod.cn/docs/records.html#record-create
-func (r *RecordsService) CreateRecord(opt *CreateRecordOptions) (*CreateRecordResp, *http.Response, error) {
+func (r *RecordsService) CreateRecord(opt *CreateRecordOptions) (*ActionRecordResp, *http.Response, error) {
 	req, err := r.client.NewRequest("POST", "Record.Create", opt)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	var crr CreateRecordResp
-	resp, err := r.client.Do(req, &crr)
+	var arr ActionRecordResp
+	resp, err := r.client.Do(req, &arr)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	return &crr, resp, nil
+	return &arr, resp, nil
 }
 
 // ModifyRecordOptions represents the available ModifyRecord() options.
@@ -122,28 +117,21 @@ type ModifyRecordOptions struct {
 	Value      string `url:"value,omitempty"`
 }
 
-// ModifyRecordResp represents response body of ModifyRecord
-// API docs: https://www.dnspod.cn/docs/records.html#record-modify
-type ModifyRecordResp struct {
-	Status *Status `json:"status,omitempty"`
-	Record *Record `json:"record,omitempty"`
-}
-
 // ModifyRecord modify specified record by id.
 // API docs: https://www.dnspod.cn/docs/records.html#record-modify
-func (r *RecordsService) ModifyRecord(opt *ModifyRecordOptions) (*ModifyRecordResp, *http.Response, error) {
+func (r *RecordsService) ModifyRecord(opt *ModifyRecordOptions) (*ActionRecordResp, *http.Response, error) {
 	req, err := r.client.NewRequest("POST", "Record.Modify", opt)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	var mrr ModifyRecordResp
-	resp, err := r.client.Do(req, &mrr)
+	var arr ActionRecordResp
+	resp, err := r.client.Do(req, &arr)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	return &mrr, resp, nil
+	return &arr, resp, nil
 }
 
 // DeleteRecordOptions represents the available DeleteRecord() options.
@@ -153,26 +141,19 @@ type DeleteRecordOptions struct {
 	RecordID string `url:"record_id,omitempty"`
 }
 
-// DeleteRecordResp represents response body of DeleteRecord
-// API docs: https://www.dnspod.cn/docs/records.html#record-remove
-type DeleteRecordResp struct {
-	Status *Status `json:"status,omitempty"`
-	Record *Record `json:"record,omitempty"`
-}
-
 // DeleteRecord delete specified record by id.
 // API docs: https://www.dnspod.cn/docs/records.html#record-remove
-func (r *RecordsService) DeleteRecord(opt *DeleteRecordOptions) (*DeleteRecordResp, *http.Response, error) {
-	req, err := r.client.NewRequest("POST", "Record.Delete", opt)
+func (r *RecordsService) DeleteRecord(opt *DeleteRecordOptions) (*ActionRecordResp, *http.Response, error) {
+	req, err := r.client.NewRequest("POST", "Record.Remove", opt)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	var drr DeleteRecordResp
-	resp, err := r.client.Do(req, &drr)
+	var arr ActionRecordResp
+	resp, err := r.client.Do(req, &arr)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	return &drr, resp, nil
+	return &arr, resp, nil
 }
