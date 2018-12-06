@@ -22,7 +22,7 @@ const (
 
 // Record represents a record of domain
 type Record struct {
-	ID            string      `json:"id,omitempty"`
+	ID            interface{} `json:"id,omitempty"`
 	TTL           string      `json:"ttl,omitempty"`
 	Value         string      `json:"value,omitempty"`
 	Enabled       string      `json:"enabled,omitempty"`
@@ -53,12 +53,12 @@ type ListRecordsOptions struct {
 type ActionRecordResp struct {
 	Status *Status `json:"status,omitempty"`
 	Domain *Domain `json:"domain,omitempty"`
-	Info   struct {
+	Info   *struct {
 		SubDomains  string `json:"sub_domains,omitempty"`
 		RecordTotal string `json:"record_total,omitempty"`
 		RecordsNum  string `json:"records_num,omitempty"`
 	} `json:"info,omitempty"`
-	Records []*Record `json:"records,omitempty"`
+	Records *[]Record `json:"records,omitempty"`
 	Record  *Record   `json:"record,omitempty"`
 }
 
