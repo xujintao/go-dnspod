@@ -58,8 +58,8 @@ type ActionRecordResp struct {
 		RecordTotal string `json:"record_total,omitempty"`
 		RecordsNum  string `json:"records_num,omitempty"`
 	} `json:"info,omitempty"`
-	Records *[]Record `json:"records,omitempty"`
-	Record  *Record   `json:"record,omitempty"`
+	Records []Record `json:"records,omitempty"`
+	Record  *Record  `json:"record,omitempty"`
 }
 
 // ListRecords get a list of records
